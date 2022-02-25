@@ -1,17 +1,16 @@
 package com.algaworks.algafood.di.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.algaworks.algafood.di.model.Cliente;
 import com.algaworks.algafood.notificacao.Notificador;
 
-//@Component
+@Component
 public class AtivadorClienteService {
 	
+	@Autowired
 	private Notificador notificador;
-	
-	public AtivadorClienteService(Notificador notificador) {
-		this.notificador = notificador;
-		System.out.println("AtivaClienteService :: Injeção de dependencias :: " + notificador);
-	}
 	
 	public void ativarCliente(Cliente cliente) {
 		
