@@ -12,16 +12,14 @@ import com.algaworks.algafood.notificacao.Notificador;
 public class AtivadorClienteService {
 	
 	@Autowired(required = false)
-	private List<Notificador> notificadores;
+	private Notificador notificador;
 	
 	public void ativarCliente(Cliente cliente) {
 		
 		cliente.ativar(true);
 		
-		if(this.notificadores != null) {
-			for(Notificador notificador : notificadores) {
+		if(this.notificador != null) {
 			notificador.notificar(cliente, "O Cliente " + cliente.getNome() + " foi ativado com sucesso.");
-			}
 		} else{
 			System.out.println("Não possui Notificador ativo, mas cliente foi ativado!");
 		}
