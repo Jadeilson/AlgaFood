@@ -8,12 +8,15 @@ import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.di.model.Cliente;
 import com.algaworks.algafood.notificacao.Notificador;
+import com.algaworks.algafood.notificacao.TipoNotificacao;
+import com.algaworks.algafood.notificacao.TipoUrgenciaNotificacao;
 
 @Component
 public class AtivadorClienteService {
 	
-	@Qualifier("NORMAL")
+//	@Qualifier("NORMAL")
 //	@Autowired(required = false)
+	@TipoUrgenciaNotificacao(TipoNotificacao.NORMAL)
 	@Autowired
 	private Notificador notificador;
 	
