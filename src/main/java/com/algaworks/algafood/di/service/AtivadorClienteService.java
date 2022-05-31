@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-import com.algaworks.algafood.di.model.Cliente;
+import com.algaworks.algafood.di.modelo.Cliente;
 import com.algaworks.algafood.event.ClienteAtivadoEvent;
 
 @Component

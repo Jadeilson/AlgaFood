@@ -1,6 +1,6 @@
 package com.algaworks.algafood.event;
 
-import com.algaworks.algafood.di.model.Cliente;
+import com.algaworks.algafood.di.modelo.Cliente;
 
 public class ClienteAtivadoEvent {
 	
