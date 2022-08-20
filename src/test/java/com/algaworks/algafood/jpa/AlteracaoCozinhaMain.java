@@ -20,8 +20,10 @@ public class AlteracaoCozinhaMain {
 		Cozinha cozinha = new Cozinha();
 		cozinha.setId(2L);
 		cozinha.setNome("Japonesa");
-		cadastroCozinha.salvar(cozinha);
 		
+		Cozinha cozinhaSalva = cadastroCozinha.salvar(cozinha);
+		System.out.println("Cozinha Salva Nome: " + cozinhaSalva.getNome());
+		System.out.println("Cozinha Salva ID: " + cozinhaSalva.getId());
 	
 	
 	}

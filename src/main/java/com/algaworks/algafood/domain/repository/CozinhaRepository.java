@@ -6,9 +6,9 @@ import com.algaworks.algafood.domain.model.Cozinha;
 
 public interface CozinhaRepository {
 	
-	List<Cozinha> listar();
-	Cozinha buscar(Long id);
-	Cozinha salvar(Cozinha cozinha);
-	void remover(Cozinha cozinha);
+	public List<Cozinha> listar();
+	public Cozinha buscar(Long id);
+	public Cozinha salvar(Cozinha cozinha);
+	public void remover(Cozinha cozinha);
 
 }

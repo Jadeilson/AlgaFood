@@ -6,21 +6,22 @@ import org.springframework.context.ApplicationContext;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
 public class AdicionaCozinhaMain {
 
 	public static void main(String[] args) {
 
-		ApplicationContext apliApplicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
+		ApplicationContext applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = apliApplicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha cozinha = new Cozinha();
 		cozinha.setNome("Japonesa");
 		
-		cozinha = cadastroCozinha.salvar(cozinha);
+		cozinha = cozinhaRepository.salvar(cozinha);
 		
 		System.out.println("Cozinha => " + cozinha.getNome() + 
 				" cadastrada com o código => " + cozinha.getId());
