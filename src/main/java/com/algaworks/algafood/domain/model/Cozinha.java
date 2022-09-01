@@ -7,19 +7,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@JsonRootName(value = "cozinha") // Anotação muda Nome da tag raiz do XML
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Cozinha {	
 	
-	@EqualsAndHashCode.Include
+//	@JsonIgnore -- Anotação remove atributo na representação json/xml
 	@Id
+	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+//	@JsonProperty(value = "nomeCozinha") -- Anotação muda Nome do atributo na representação json/xml
 	@Column(name = "nomeCozinha", nullable = false)
 	private String nome;
 	
