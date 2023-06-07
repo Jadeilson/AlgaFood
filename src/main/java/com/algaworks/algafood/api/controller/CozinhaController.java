@@ -39,6 +39,13 @@ public class CozinhaController {
 		return cozinhaRepository.listar(); 
 	}
 	
+	@GetMapping
+	@RequestMapping(value = "/filtra-cozinha/{nomeCozinha}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Cozinha> filtraCozinha(@PathVariable String nomeCozinha){
+		return cozinhaRepository.filtraCozinha(nomeCozinha);
+	}
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> buscar (@PathVariable Long id) {
 		Cozinha cozinha = cozinhaRepository.buscar(id);
@@ -82,18 +89,22 @@ public class CozinhaController {
 	
 	
 	@DeleteMapping("/{idCozinha}")
-	public ResponseEntity<Cozinha> remover(@PathVariable Long idCozinha){
+	public ResponseEntity<?> remover(@PathVariable Long idCozinha){
 
 		try {
 			cadastroCozinhaService.remover(idCozinha);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			
 		} catch (EntidadeNaoExistenteException e){
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); 
 			
 		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		}
 	}
 	
 }
+
+
+
+

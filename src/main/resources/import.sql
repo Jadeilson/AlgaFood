@@ -2,17 +2,21 @@
 --insert into cozinha (id, nome_cozinha) values (2, 'Indiana');
 --insert into cozinha (id, nome_cozinha) values (3, 'Italiana');
 --insert into cozinha (id, nome_cozinha) values (4, 'Brasileira');
+--insert into cozinha (id, nome_cozinha) values (5, 'Francesa');
+--insert into cozinha (id, nome_cozinha) values (6, 'Árabe');
 
 insert into cozinha (nome_cozinha) values ('Tailandeza');
 insert into cozinha (nome_cozinha) values ('Indiana');
 insert into cozinha (nome_cozinha) values ('Italiana');
 insert into cozinha (nome_cozinha) values ('Brasileira');
+insert into cozinha (nome_cozinha) values ('Francesa');
+insert into cozinha (nome_cozinha) values ('Árabe');
 
 insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Cantina Giggio', 1.0, 1);
 insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Pizzaria Marcus', 2.0, 2);
 insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('O Marmiteiro', 5.0, 1);
-insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('O Marmiteiro', 5.0, 3);
-insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('O Marmiteiro', 5.0, 4);
+insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Comiga Vegana e Cia', 3.0, 3);
+insert into restaurante (nome_restaurante, taxa_frete, cozinha_id) values ('Habibis Esfiharia', 7.0, 4);
 
 
 --insert into estado (id, nome) values (1, 'São Paulo');
@@ -28,6 +32,7 @@ insert into estado (nome) values ('Santa Catarina');
 insert into estado (nome) values ('Pernabuco');
 insert into estado (nome) values ('Bahia');
 insert into estado (nome) values ('Minas Gerais');
+insert into estado (nome) values ('Roraima');
 
 --insert into cidade (id, nome, estado_id) values (1, 'São Paulo',1);
 --insert into cidade (id, nome, estado_id) values (2, 'Rio de Janeiro',2);

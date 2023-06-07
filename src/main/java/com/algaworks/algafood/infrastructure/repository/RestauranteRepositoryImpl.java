@@ -37,9 +37,15 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 	@Override
 	@Transactional
 	public void remover(Restaurante restaurante) {
-		restaurante = busca(restaurante.getId());
 		manager.remove(restaurante);
 		
 	}
 
+	@Override
+	public List<Restaurante> filtraRestaurante(String nomeRestaurante) {
+		return manager.createQuery("from Restaurante where upper(nome) like upper(:nomeRestaurante)", Restaurante.class)
+				.setParameter("nomeRestaurante", "%" + nomeRestaurante + "%")
+				.getResultList();
+	}
+	
 }

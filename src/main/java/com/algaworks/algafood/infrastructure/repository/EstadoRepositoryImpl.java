@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.algaworks.algafood.domain.model.Estado;
@@ -20,29 +21,37 @@ public class EstadoRepositoryImpl implements EstadoRepository{
 	
 	@Override
 	public List<Estado> listar() {
-		// TODO Auto-generated method stub
-		TypedQuery<Estado> query = manager.createQuery("from Estado", Estado.class);
+		TypedQuery<Estado> query = manager.createQuery("from Estado order by id desc", Estado.class);
 		return query.getResultList();
 	}
 
 	@Override
-	public Estado buscar(Long id) {
-		// TODO Auto-generated method stub
-		return manager.find(Estado.class, id);
+	public Estado buscar(Long idEstado) {
+		return manager.find(Estado.class, idEstado);
 	}
 
+	@Override
+	public List<Estado> filtraEstado(String nomeEstado) {
+		return manager.createQuery("from Estado where upper(nome) like upper(:nomeEstado)",Estado.class)
+			.setParameter("nomeEstado", "%" + nomeEstado + "%")
+			.getResultList();
+	}
+	
 	@Transactional
 	@Override
 	public Estado salvar(Estado estado) {
-		// TODO Auto-generated method stub
 		return manager.merge(estado);
 	}
 
 	@Transactional
 	@Override
-	public void remover(Estado estado) {
-		// TODO Auto-generated method stub
-		estado = buscar(estado.getId());
+	public void remover(Long idEstado) {
+		Estado estado = buscar(idEstado);
+		
+		if(estado == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove(estado);
 	}
 

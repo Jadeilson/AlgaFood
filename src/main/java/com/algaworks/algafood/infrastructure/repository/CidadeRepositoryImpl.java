@@ -20,30 +20,33 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 	
 	@Override
 	public List<Cidade> listar() {
-		// TODO Auto-generated method stub
 		TypedQuery<Cidade> query = manager.createQuery("from Cidade", Cidade.class);
 		return query.getResultList();
 	}
 
 	@Override
 	public Cidade buscar(Long id) {
-		// TODO Auto-generated method stub
 		return manager.find(Cidade.class, id);
 	}
 
 	@Transactional
 	@Override
 	public Cidade salvar(Cidade cidade) {
-		// TODO Auto-generated method stub
 		return manager.merge(cidade);
 	}
 
 	@Transactional
 	@Override
 	public void remover(Cidade cidade) {
-		// TODO Auto-generated method stub
 		cidade = buscar(cidade.getId());
 		manager.remove(cidade);
+	}
+
+	@Override
+	public List<Cidade> filtraCidade(String nomeCidade) {
+		return manager.createQuery("from Cidade where upper(nome) like upper(:nome)", Cidade.class)
+			.setParameter("nome", "%" + nomeCidade + "%")
+			.getResultList();
 	}
 
 }
