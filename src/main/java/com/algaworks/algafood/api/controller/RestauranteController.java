@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,32 +41,31 @@ public class RestauranteController {
 	@GetMapping
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<Restaurante> listar(){
-		
-		return restauranteRepository.listar();
+		return restauranteRepository.findAll();
 	}
 	
-	@GetMapping(value = "/filtra-restaurante/{nomeRestaurante}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Restaurante> filtraRestaurante(@PathVariable String nomeRestaurante){
-		return restauranteRepository.filtraRestaurante(nomeRestaurante);
-	}
+//	@GetMapping(value = "/filtra-restaurante/{nomeRestaurante}")
+//	@ResponseStatus(value = HttpStatus.OK)
+//	public List<Restaurante> filtraRestaurante(@PathVariable String nomeRestaurante){
+//		return restauranteRepository.filtraRestaurante(nomeRestaurante);
+//	}
 	
-	@GetMapping(value = "/filtra-restaurante2")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Restaurante> filtraRestaurante2(@RequestParam("nomeRestaurante") String nomeRestaurante){
-		return restauranteRepository.filtraRestaurante(nomeRestaurante);
-	}
+//	@GetMapping(value = "/filtra-restaurante2")
+//	@ResponseStatus(value = HttpStatus.OK)
+//	public List<Restaurante> filtraRestaurante2(@RequestParam("nomeRestaurante") String nomeRestaurante){
+//		return restauranteRepository.filtraRestaurante(nomeRestaurante);
+//	}
 
 	@GetMapping(value = "/{idRestaurante}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long idRestaurante) {
 		
-		Restaurante restaurante = restauranteRepository.busca(idRestaurante);
+		Optional<Restaurante> restaurante = restauranteRepository.findById(idRestaurante);
 		
-		if(restaurante == null) {
+		if(restaurante.isEmpty() ) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(restaurante);
+		return ResponseEntity.status(HttpStatus.OK).body(restaurante.get());
 	}
 	
 	
@@ -89,13 +88,13 @@ public class RestauranteController {
 		
 		try {
 			
-			Restaurante restauranteAtual = restauranteRepository.busca(restauranteId);
+			Optional<Restaurante> restauranteAtual = restauranteRepository.findById(restauranteId);
 			
-			if(restauranteAtual != null) {
-				BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
-				restauranteAtual = cadastroRestauranteService.salvar(restauranteAtual);
+			if(restauranteAtual.isPresent()) {
+				BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id");
+				Restaurante restauranteAtualSalvo = cadastroRestauranteService.salvar(restauranteAtual.get());
 				
-				return ResponseEntity.status(HttpStatus.OK).body(restauranteAtual);
+				return ResponseEntity.status(HttpStatus.OK).body(restauranteAtualSalvo);
 			}
 			
 			return ResponseEntity.notFound().build();
@@ -124,13 +123,13 @@ public class RestauranteController {
 															@RequestBody Map<String, Object> listaDecampos){
 //															@RequestBody Restaurante restaurante){
 		
-		Restaurante restauranteAtual = restauranteRepository.busca(idRestaurante);
-		if(restauranteAtual == null) {
+		Optional<Restaurante> restauranteAtual = restauranteRepository.findById(idRestaurante);
+		if(restauranteAtual.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		merge(listaDecampos, restauranteAtual);
-		return atualizar(idRestaurante, restauranteAtual);
+		merge(listaDecampos, restauranteAtual.get());
+		return atualizar(idRestaurante, restauranteAtual.get());
 	}
 
 	

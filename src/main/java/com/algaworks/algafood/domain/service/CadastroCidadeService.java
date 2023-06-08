@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +23,11 @@ public class CadastroCidadeService {
 	public Cidade salvar(Cidade cidade) {
 		
 		Long idEstado = cidade.getEstado().getId();
-		Estado estado =  estadoRepository.buscar(idEstado);
+		Optional<Estado> estado =  estadoRepository.findById(idEstado);
 		
-		if(estado !=null) {
-			cidade.setEstado(estado);
-			return cidadeRepository.salvar(cidade);
+		if(estado.isPresent()) {
+			cidade.setEstado(estado.get());
+			return cidadeRepository.save(cidade);
 		}
 		
 		throw new EntidadeNaoExistenteException(
@@ -35,12 +37,12 @@ public class CadastroCidadeService {
 	
 	public void remover(Long idCidade){
 		
-		Cidade cidade = cidadeRepository.buscar(idCidade);
-		if(cidade == null) {
+		Optional<Cidade> cidade = cidadeRepository.findById(idCidade);
+		if(cidade.isEmpty()) {
 			throw new EntidadeNaoExistenteException(
 					String.format("A cidade de id %d não foi encontrada na base.", idCidade));
 		}
-		cidadeRepository.remover(cidade);			
+		cidadeRepository.delete(cidade.get());			
 	}
 
 }

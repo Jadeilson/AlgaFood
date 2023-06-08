@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,22 +37,22 @@ public class CozinhaController {
 	@ResponseStatus(value = HttpStatus.OK)
 	@GetMapping
 	public List<Cozinha> listar(){
-		return cozinhaRepository.listar(); 
+		return cozinhaRepository.findAll(); 
 	}
 	
-	@GetMapping
-	@RequestMapping(value = "/filtra-cozinha")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<Cozinha> filtraCozinha(@RequestParam String nomeCozinha){
-		return cozinhaRepository.filtraCozinha(nomeCozinha);
-	}
+//	@GetMapping
+//	@RequestMapping(value = "/filtra-cozinha")
+//	@ResponseStatus(value = HttpStatus.OK)
+//	public List<Cozinha> filtraCozinha(@RequestParam String nomeCozinha){
+//		return cozinhaRepository.filtraCozinha(nomeCozinha);
+//	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> buscar (@PathVariable Long id) {
-		Cozinha cozinha = cozinhaRepository.buscar(id);
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 		
-		if(cozinha !=null) {
-			return ResponseEntity.ok(cozinha);
+		if(cozinha.isPresent()) {
+			return ResponseEntity.ok(cozinha.get());
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -76,13 +76,13 @@ public class CozinhaController {
 	
 	@PutMapping(value = "/{idCozinha}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long idCozinha, @RequestBody Cozinha cozinha){
-		Cozinha cozinhaAtual = cozinhaRepository.buscar(idCozinha);
+		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(idCozinha);
 		
-		if(cozinhaAtual != null) {
-			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-			cozinhaAtual = cadastroCozinhaService.salvar(cozinhaAtual);
+		if(cozinhaAtual.isPresent()) {
+			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+			Cozinha cozinhaSalva = cadastroCozinhaService.salvar(cozinhaAtual.get());
 			
-			return ResponseEntity.ok(cozinhaAtual);
+			return ResponseEntity.ok(cozinhaSalva);
 		}
 		
 		return ResponseEntity.notFound().build();

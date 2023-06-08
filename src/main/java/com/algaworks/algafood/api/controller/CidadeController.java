@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,22 +35,22 @@ public class CidadeController {
 	@GetMapping
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<Cidade> listar() {
-		return cidadeRepository.listar();
+		return cidadeRepository.findAll();
 	}
 
-	@GetMapping
-	@RequestMapping(value = "/filtra-cidade/{nomeCidade}")
-	public List<Cidade> filtraCidade(@PathVariable String nomeCidade) {
-		return cidadeRepository.filtraCidade(nomeCidade);
-	}
+//	@GetMapping
+//	@RequestMapping(value = "/filtra-cidade/{nomeCidade}")
+//	public List<Cidade> filtraCidade(@PathVariable String nomeCidade) {
+//		return cidadeRepository.filtraCidade(nomeCidade);
+//	}
 
 	@GetMapping
 	@RequestMapping(value = "/{idCidade}")
 	public ResponseEntity<Cidade> buscar(@PathVariable Long idCidade) {
 
-		Cidade cidade = cidadeRepository.buscar(idCidade);
-		if (cidade != null) {
-			return ResponseEntity.ok(cidade);
+		Optional<Cidade> cidade = cidadeRepository.findById(idCidade);
+		if (cidade.isPresent()) {
+			return ResponseEntity.ok(cidade.get());
 		}
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -72,11 +73,12 @@ public class CidadeController {
 	public ResponseEntity<?> atualizar(@PathVariable Long idCidade, @RequestBody Cidade cidade) {
 
 		try {
-			Cidade cidadeAtual = cidadeRepository.buscar(idCidade);
-			if (cidadeAtual != null) {
-				BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-				cidadeAtual = cadastroCidadeService.salvar(cidadeAtual);
-				return ResponseEntity.ok(cidadeAtual);
+			Optional<Cidade> cidadeAtual = cidadeRepository.findById(idCidade);
+			
+			if (cidadeAtual.isPresent()) {
+				BeanUtils.copyProperties(cidade, cidadeAtual.get(), "id");
+				Cidade cidadeAtualSalva = cadastroCidadeService.salvar(cidadeAtual.get());
+				return ResponseEntity.ok(cidadeAtualSalva);
 			}
 
 		} catch (EntidadeNaoExistenteException e) {

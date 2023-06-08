@@ -18,13 +18,13 @@ public class CadastroEstadoService {
 	
 	
 	public Estado salvar(Estado estado) {
-		return estadoRepository.salvar(estado);
+		return estadoRepository.save(estado);
 	}
 	
 	public void remover(Long idEstado) {
 				
 		try {
-			estadoRepository.remover(idEstado);
+			estadoRepository.deleteById(idEstado);
 			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoExistenteException(

@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +36,22 @@ public class EstadoController {
 	@GetMapping
 	@ResponseStatus(value =HttpStatus.OK)
 	public List<Estado> listar() {
-		return estadoRepository.listar();
+		return estadoRepository.findAll();
 	}
 	
-	@GetMapping(value = "/filtra-estado/{nomeEstado}")
-	public List<Estado> filtraEstado(@PathVariable String nomeEstado){
-		return estadoRepository.filtraEstado(nomeEstado);
-	}
+//	@GetMapping(value = "/filtra-estado/{nomeEstado}")
+//	public List<Estado> filtraEstado(@PathVariable String nomeEstado){
+//		return estadoRepository.filtraEstado(nomeEstado);
+//	}
 	
 	@GetMapping(value = "/{idEstado}")
 	public ResponseEntity<Estado> buscar(@PathVariable Long idEstado) {
-		Estado estado =  estadoRepository.buscar(idEstado);
+		Optional<Estado> estado =  estadoRepository.findById(idEstado);
 		
-		if(estado == null){
+		if(estado.isEmpty()){
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(estado);
+		return ResponseEntity.ok(estado.get());
 	}
 	
 	
@@ -64,12 +65,12 @@ public class EstadoController {
 	@PutMapping(value = "/{idEstado}")
 	public ResponseEntity<Estado> atualizar(@PathVariable Long idEstado, @RequestBody Estado estado) {
 		
-		Estado estadoAtual = estadoRepository.buscar(idEstado);
+		Optional<Estado> estadoAtual = estadoRepository.findById(idEstado);
 		
-		if(estadoAtual != null) {
-			BeanUtils.copyProperties(estado, estadoAtual,"id");
-			estadoAtual = cadastroEstadoService.salvar(estadoAtual);
-			return ResponseEntity.ok().body(estadoAtual);
+		if(estadoAtual.isPresent()) {
+			BeanUtils.copyProperties(estado, estadoAtual.get(),"id");
+			Estado estadoAtualSalvo = cadastroEstadoService.salvar(estadoAtual.get());
+			return ResponseEntity.ok().body(estadoAtualSalvo);
 		}
 		
 		return ResponseEntity.notFound().build();	
