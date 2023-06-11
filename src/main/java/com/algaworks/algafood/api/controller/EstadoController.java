@@ -39,10 +39,10 @@ public class EstadoController {
 		return estadoRepository.findAll();
 	}
 	
-//	@GetMapping(value = "/filtra-estado/{nomeEstado}")
-//	public List<Estado> filtraEstado(@PathVariable String nomeEstado){
-//		return estadoRepository.filtraEstado(nomeEstado);
-//	}
+	@GetMapping(value = "/filtra-estado/{nomeEstado}")
+	public List<Estado> filtraEstado(@PathVariable String nomeEstado){
+		return estadoRepository.findFiltraEstadoByNomeContainingIgnoreCase(nomeEstado);
+	}
 	
 	@GetMapping(value = "/{idEstado}")
 	public ResponseEntity<Estado> buscar(@PathVariable Long idEstado) {

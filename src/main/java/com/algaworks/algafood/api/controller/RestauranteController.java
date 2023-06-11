@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,17 +45,22 @@ public class RestauranteController {
 		return restauranteRepository.findAll();
 	}
 	
-//	@GetMapping(value = "/filtra-restaurante/{nomeRestaurante}")
-//	@ResponseStatus(value = HttpStatus.OK)
-//	public List<Restaurante> filtraRestaurante(@PathVariable String nomeRestaurante){
-//		return restauranteRepository.filtraRestaurante(nomeRestaurante);
-//	}
+	@GetMapping(value = "/filtra-restaurante/{nomeRestaurante}/{nomeCozinha}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Restaurante> filtraRestaurante(@PathVariable String nomeRestaurante, @PathVariable String nomeCozinha){
+		
+		return restauranteRepository.findFiltraRestauranteByNomeContainingIgnoreCaseAndCozinhaNomeContainingIgnoreCase
+					(nomeRestaurante, nomeCozinha);
+	}
 	
-//	@GetMapping(value = "/filtra-restaurante2")
-//	@ResponseStatus(value = HttpStatus.OK)
-//	public List<Restaurante> filtraRestaurante2(@RequestParam("nomeRestaurante") String nomeRestaurante){
-//		return restauranteRepository.filtraRestaurante(nomeRestaurante);
-//	}
+	@GetMapping(value = "/filtra-restaurante2")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Restaurante> filtraRestaurante2
+		(@RequestParam("nomeRestaurante") String nomeRestaurante, String nomeCozinha){
+		
+		return restauranteRepository.findFiltraRestauranteByNomeContainingIgnoreCaseAndCozinhaNomeContainingIgnoreCase
+					(nomeRestaurante, nomeCozinha);
+	}
 
 	@GetMapping(value = "/{idRestaurante}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable Long idRestaurante) {

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,12 +41,19 @@ public class CozinhaController {
 		return cozinhaRepository.findAll(); 
 	}
 	
-//	@GetMapping
-//	@RequestMapping(value = "/filtra-cozinha")
-//	@ResponseStatus(value = HttpStatus.OK)
-//	public List<Cozinha> filtraCozinha(@RequestParam String nomeCozinha){
-//		return cozinhaRepository.filtraCozinha(nomeCozinha);
-//	}
+	@GetMapping
+	@RequestMapping(value = "/filtra-cozinha")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Cozinha> filtraCozinha(@RequestParam String nomeCozinha){
+		return cozinhaRepository.findFiltraCozinhaByNomeContaining(nomeCozinha);
+	}
+	
+	@GetMapping
+	@RequestMapping(value = "/filtra-cozinha-por-nome")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Cozinha> filtraCozinhaPorNome(@RequestParam String nomeCozinha){
+		return cozinhaRepository.consultaCozinhasPorNome(nomeCozinha);
+	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cozinha> buscar (@PathVariable Long id) {

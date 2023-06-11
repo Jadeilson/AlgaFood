@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,11 +39,11 @@ public class CidadeController {
 		return cidadeRepository.findAll();
 	}
 
-//	@GetMapping
-//	@RequestMapping(value = "/filtra-cidade/{nomeCidade}")
-//	public List<Cidade> filtraCidade(@PathVariable String nomeCidade) {
-//		return cidadeRepository.filtraCidade(nomeCidade);
-//	}
+	@GetMapping
+	@RequestMapping(value = "/filtra-cidade")
+	public List<Cidade> filtraCidade(@RequestParam String nomeCidade) {
+		return cidadeRepository.findFiltraCidadeByNomeContainingIgnoreCase(nomeCidade);
+	}
 
 	@GetMapping
 	@RequestMapping(value = "/{idCidade}")
@@ -98,6 +99,32 @@ public class CidadeController {
 		} catch (EntidadeNaoExistenteException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
+	}
+	
+	
+	
+	@GetMapping
+	@RequestMapping(value = "/filtra-primeira-cidade")
+	public Cidade filtraPrimeiraCidade(@RequestParam String nomeCidade) {
+		return cidadeRepository.findFirstBuscaPrimeiraCidadeByNomeContainingIgnoreCase(nomeCidade);
+	}
+	
+	@GetMapping
+	@RequestMapping(value = "/filtra-top2-cidades")
+	public List<Cidade> filtraTop2Cidades(@RequestParam String nomeCidade) {
+		return cidadeRepository.getTop2CidadesByNomeContainingIgnoreCase(nomeCidade);
+	}
+	
+	@GetMapping
+	@RequestMapping(value = "/filtra-exists-cidade")
+	public boolean filtraExistsCidade(@RequestParam String nomeCidade) {
+		return cidadeRepository.existsCidadeByNomeContainingIgnoreCase(nomeCidade);
+	}
+	
+	@GetMapping
+	@RequestMapping(value = "/filtra-count-cidades")
+	public int filtraCountCidades(@RequestParam String nomeCidade) {
+		return cidadeRepository.countCidadesByNomeContainingIgnoreCase(nomeCidade);
 	}
 
 }
