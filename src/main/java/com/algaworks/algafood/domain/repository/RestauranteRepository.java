@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>{
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries{
 	
 	public List<Restaurante> findFiltraRestauranteByNomeContainingIgnoreCaseAndCozinhaNomeContainingIgnoreCase
-		(String nomeRestaurante, String nomeCozinha);
+		(String nomeRestaurante, String nomeCozinha);	
 
 }
