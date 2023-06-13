@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComFreteGratis;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComNomeSemelhante;
 
 @RestController
 @RequestMapping("/teste")
@@ -44,6 +46,16 @@ public class TesteController {
 															BigDecimal taxaFinal ){
 		
 		return restauranteRepository.bucaRestaurantesComCriteriaApi(nome, taxaInicial, taxaFinal);
+	}
+	
+	
+	@RequestMapping("/buscaRestauranteComFretegratis")
+	public List<Restaurante> buscaRestauranteComFretegratis(String nome){
+		
+		var restauranteComFreteGratis = new RestauranteComFreteGratis(); 
+		var restauranteComNomeSemelhante= new RestauranteComNomeSemelhante(nome); 
+		
+		return restauranteRepository.findAll(restauranteComFreteGratis.and(restauranteComNomeSemelhante));
 	}
 	
 }
