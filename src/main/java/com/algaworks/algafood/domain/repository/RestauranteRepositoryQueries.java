@@ -12,5 +12,8 @@ public interface RestauranteRepositoryQueries {
 	
 	public List<Restaurante> localizaRestaurantesDinamica(String nome, 
 			BigDecimal taxaInicial, BigDecimal taxaFinal);
-
+	
+	public List<Restaurante> bucaRestaurantesComCriteriaApi(String nome, 
+			BigDecimal taxaInicial, BigDecimal taxaFinal);
+	
 }

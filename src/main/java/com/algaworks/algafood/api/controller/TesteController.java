@@ -36,6 +36,30 @@ public class TesteController {
 		
 		return restauranteRepository.localizaRestaurantesDinamica(nome, taxaInicial, taxaFinal); 
 	}
+
 	
+	@GetMapping("/bucaRestaurantesComCriteriaApi")
+	public List<Restaurante> bucaRestaurantesComCriteriaApi(String nome, 
+															BigDecimal taxaInicial, 
+															BigDecimal taxaFinal ){
+		
+		return restauranteRepository.bucaRestaurantesComCriteriaApi(nome, taxaInicial, taxaFinal);
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

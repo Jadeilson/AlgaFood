@@ -12,5 +12,6 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long>,
 	
 	public List<Restaurante> findFiltraRestauranteByNomeContainingIgnoreCaseAndCozinhaNomeContainingIgnoreCase
 		(String nomeRestaurante, String nomeCozinha);	
+	
 
 }
