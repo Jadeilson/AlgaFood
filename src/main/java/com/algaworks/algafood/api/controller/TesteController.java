@@ -1,5 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
+import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
+import static com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComFreteGratis;
-import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComNomeSemelhante;
 
 @RestController
 @RequestMapping("/teste")
@@ -52,10 +53,7 @@ public class TesteController {
 	@RequestMapping("/buscaRestauranteComFretegratis")
 	public List<Restaurante> buscaRestauranteComFretegratis(String nome){
 		
-		var restauranteComFreteGratis = new RestauranteComFreteGratis(); 
-		var restauranteComNomeSemelhante= new RestauranteComNomeSemelhante(nome); 
-		
-		return restauranteRepository.findAll(restauranteComFreteGratis.and(restauranteComNomeSemelhante));
+		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
 	}
 	
 }

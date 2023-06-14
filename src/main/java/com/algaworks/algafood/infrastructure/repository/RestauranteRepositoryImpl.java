@@ -78,7 +78,9 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries{
 		var predicados = new ArrayList<Predicate>();
 		
 		if(StringUtils.hasLength(nome)) {
-			Predicate nomePrecicate = builder.like(root.get("nome"), "%" + nome + "%");
+//			Predicate nomePrecicate = builder.like(root.get("nome"), "%" + nome + "%");
+			Predicate nomePrecicate = builder.like(builder.upper(root.get("nome")), 
+										"%" + nome.toUpperCase() + "%");
 			predicados.add(nomePrecicate);
 		}
 		
