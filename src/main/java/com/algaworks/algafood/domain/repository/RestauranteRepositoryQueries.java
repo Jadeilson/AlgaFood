@@ -16,4 +16,6 @@ public interface RestauranteRepositoryQueries {
 	public List<Restaurante> bucaRestaurantesComCriteriaApi(String nome, 
 			BigDecimal taxaInicial, BigDecimal taxaFinal);
 	
+	public List<Restaurante> buscaRestauranteComFretegratis(String nome);
+	
 }

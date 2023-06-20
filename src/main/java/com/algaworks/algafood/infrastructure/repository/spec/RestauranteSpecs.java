@@ -15,7 +15,6 @@ public class RestauranteSpecs {
 	
 	public static Specification<Restaurante> comNomeSemelhante(String nome) {
 		return (root, query, builder) ->
-//			builder.like(root.get("nome"), "%" + nome.toUpperCase() + "%");
 			builder.like(builder.upper(root.get("nome")), "%" + nome.toUpperCase() + "%");
 	}
 
