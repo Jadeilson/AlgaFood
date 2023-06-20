@@ -64,3 +64,6 @@ insert into forma_Pagamento (descricao) values ('Cartão de Crédito');
 insert into forma_Pagamento (descricao) values ('Cartão de Débito');
 insert into forma_Pagamento (descricao) values ('Cartão vale refeição');
 
+-- INSERT FORMAS DE PAGAMENTO PARA RESTAURANTES
+INSERT INTO RESTAURANTE_FORMAS_PAGAMENTO (RESTAURANTE_ID,FORMA_PAGAMENTO_ID) VALUES (1,1), (1,2), (1,3), (1,4), (2,1), (2,3), (3,1), (3,4), (4,1), (5,1);
+
