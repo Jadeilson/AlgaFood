@@ -22,8 +22,11 @@ public class Estado {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, name = "estado_nome")
 	private String nome;
+	
+	@Column(nullable = false)
+	private String uf;
 	
 
 }
