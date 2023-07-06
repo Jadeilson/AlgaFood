@@ -1,7 +1,4 @@
 
-
-
-
 -- CADASTRO DAS COZINHAS
 insert into cozinha (nome_cozinha) values ('Tailandeza');
 insert into cozinha (nome_cozinha) values ('Indiana');
